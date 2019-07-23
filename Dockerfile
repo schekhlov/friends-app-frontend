@@ -7,6 +7,6 @@ COPY . /app
 RUN npm run build
 RUN ls
 
-FROM nginx:alpine
+FROM nginx:1.13.8
 COPY --from=build /app/dist /usr/share/nginx/html
 
