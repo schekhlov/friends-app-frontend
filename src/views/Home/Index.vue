@@ -5,7 +5,8 @@
       ref="network"
       :nodes="nodes"
       :edges="edges"
-      :options="options">
+      :options="options"
+      @select-node="selectNode()">
     </network>
   </v-layout>
 </template>
@@ -15,48 +16,46 @@
 import VLayout from '@/layouts/Default.vue';
 
 export default {
-  /**
-   * The name of the page.
-   */
+
   name: 'HomeIndex',
 
-  /**
-   * The components that the page can use.
-   */
   components: {
     VLayout,
   },
 
-  data() {
-    return {
-      nodes: [
-        {id: 1, label: 'Node 1'},
-        {id: 2, label: 'Node 2'},
-        {id: 3, label: 'Node 3'},
-        {id: 4, label: 'Node 4'},
-        {id: 5, label: 'Node 5'}
-      ],
-      edges: [
-        {from: 1, to: 3},
-        {from: 1, to: 2},
-        {from: 2, to: 4},
-        {from: 2, to: 5},
-      ],
-      options: {
-        nodes: {
-          shape: 'circle',
-        },
-      },
-    };
+  computed: {
+    nodes() {
+      return this.$store.state.home.nodes
+    },
+    edges() {
+      return this.$store.state.home.edges
+    },
+    options() {
+      return this.$store.state.home.options
+    }
+  },
+
+  methods: {
+    selectNode() {
+      const node = this.$refs.network.getSelection().nodes[0];
+      this.$store.dispatch('home/selectNode', node);
+    },
+  },
+
+  mounted() {
+    this.$store.dispatch('home/init');
   },
 };
 </script>
 
 <style>
+  body, html {
+    width: 100%;
+    height: 100%;
+  }
   .network {
+    display: flex;
     height: 100%;
     width: 100%;
-    border: 1px solid #ccc;
-    margin: 5px 0;
   }
 </style>

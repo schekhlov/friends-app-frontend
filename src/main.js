@@ -13,10 +13,7 @@ import App from './App.vue';
 import store from './store';
 
 Vue.config.productionTip = false;
-
 Vue.component('network', Network);
-
-store.dispatch('friends/init');
 
 /* eslint-disable no-new */
 new Vue({
