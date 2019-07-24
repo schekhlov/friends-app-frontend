@@ -1,9 +1,11 @@
 <template>
   <v-layout>
     <network
+      class="network"
       ref="network"
       :nodes="nodes"
-      :edges="edges">
+      :edges="edges"
+      :options="options">
     </network>
   </v-layout>
 </template>
@@ -40,7 +42,21 @@ export default {
         {from: 2, to: 4},
         {from: 2, to: 5},
       ],
+      options: {
+        nodes: {
+          shape: 'circle',
+        },
+      },
     };
   },
 };
 </script>
+
+<style>
+  .network {
+    height: 100%;
+    width: 100%;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+  }
+</style>

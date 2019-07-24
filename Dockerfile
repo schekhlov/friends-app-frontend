@@ -5,7 +5,6 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 RUN npm run build
-RUN ls
 
 FROM nginx:1.13.8
 COPY --from=build /app/dist /usr/share/nginx/html
