@@ -1,25 +1,23 @@
+import io from 'socket.io-client';
 import Friends from './Friends';
 import * as types from './mutation-types';
+const socket = io();
 
 export const init = async ({ commit }) => {
-  try {
-    await Friends.fetchByUserId(251396370);
+  socket.emit('get friends', 251396370);
+  socket.on('friends', (userId, data) => {
+    Friends.update(userId, data);
     const friends = Friends.toJSON();
     commit(types.UPDATE_FRIENDS, friends);
-  } catch (e) {
-    console.log('Init error:', e.message);
-  }
+    console.log('Returned friends:', userId, friends);
+  });
 };
 
 export const selectNode = async ({ commit }, userId) => {
-  try {
-    await Friends.fetchByUserId(userId);
-    const friends = Friends.toJSON();
-    commit(types.UPDATE_FRIENDS, friends);
-  } catch (e) {
-    console.log('Select node error:', e.message);
-  }
+  socket.emit('get friends', userId);
 };
+
+
 
 export default {
   init,
